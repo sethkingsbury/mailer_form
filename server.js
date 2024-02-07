@@ -1,15 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require("nodemailer");
-const { CLIENT_RENEG_WINDOW } = require('tls');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
 app.post('/send-email', (req, res) => {
+
+    const {name, email, message} = req.body;
 
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
@@ -24,8 +33,8 @@ app.post('/send-email', (req, res) => {
     const mailOptions = {
         from: process.env.EMAIL_USERNAME,
         to: process.env.RECEIVING_EMAIL,
-        subject: "Test Message",
-        text: "This is a test message."
+        subject: "Koras View Contact",
+        text: `${name} ${email} ${message}`
     }
 
     transporter.sendMail(mailOptions, (error, info) => {

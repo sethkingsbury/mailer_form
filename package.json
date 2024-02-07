@@ -19,6 +19,7 @@
   "homepage": "https://github.com/sethkingsbury/mailer_form#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "nodemailer": "^6.9.9"
